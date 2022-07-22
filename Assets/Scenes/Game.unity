@@ -154,6 +154,8 @@ MonoBehaviour:
     type: 3}
   towerPrefab: {fileID: 8481531145051783542, guid: 25d0f396843308e46a1c35b076505faf,
     type: 3}
+  burstTowerPrefab: {fileID: 8481531145051783542, guid: 5dab025bcaa58471da7b659743a32712,
+    type: 3}
   boundsMin: {x: -12, y: -8}
   boundsMax: {x: 12, y: 13}
   enemySpawnRate: 1

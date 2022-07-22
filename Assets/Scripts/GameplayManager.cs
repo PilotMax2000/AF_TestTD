@@ -77,7 +77,8 @@ namespace AFSInterview
 
         private void SpawnTower(Vector3 position)
         {
-            var tower = Instantiate(towerPrefab, position, Quaternion.identity).GetComponent<SimpleTower>();
+            //var tower = Instantiate(towerPrefab, position, Quaternion.identity).GetComponent<SimpleTower>();
+            var tower = Instantiate(burstTowerPrefab, position, Quaternion.identity).GetComponent<BurstTower>();
             tower.Initialize(enemies);
         }
     }
