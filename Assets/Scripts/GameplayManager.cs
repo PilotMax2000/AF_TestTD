@@ -23,23 +23,22 @@ namespace AFSInterview
         [SerializeField] private GameObject scoreText;
         
         private List<Enemy> enemies;
-        private float enemySpawnTimer;
+        //private float enemySpawnTimer;
         private int score;
+        private CooldownTimer enemySpawnCooldownTimer;
 
         private void Awake()
         {
             enemies = new List<Enemy>();
+            
+            enemySpawnCooldownTimer = new CooldownTimer(enemySpawnRate, true);
+            enemySpawnCooldownTimer.SetTimerAsActive(true);
         }
 
         private void Update()
         {
-            enemySpawnTimer -= Time.deltaTime;
-
-            if (enemySpawnTimer <= 0f)
-            {
-                SpawnEnemy();
-                enemySpawnTimer = enemySpawnRate;
-            }
+            enemySpawnCooldownTimer.UpdateByTime(Time.deltaTime);
+            SpawnEnemyAferCooldown();
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -56,6 +55,14 @@ namespace AFSInterview
 
             scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + score;
             enemiesCountText.GetComponent<TextMeshProUGUI>().text = "Enemies: " + enemies.Count;
+        }
+
+        private void SpawnEnemyAferCooldown()
+        {
+            if (enemySpawnCooldownTimer.IsOver == false) 
+                return;
+            SpawnEnemy();
+            enemySpawnCooldownTimer.ResetCooldown();
         }
 
         private void SpawnEnemy()
