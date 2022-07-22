@@ -8,14 +8,18 @@ namespace AFSInterview.Towers
         [Header("Burst Tower Settings")]
         [SerializeField] private float mainShootingCooldown;
         [SerializeField] private float burstShootingCooldown;
+        [SerializeField] private int bulletsPerBurst;
 
         private CooldownTimer mainCooldownTimer;
+        private CooldownTimer burstCooldownTimer;
+        private int bulletsShotNumber;
 
         public override void Initialize(IReadOnlyList<Enemy> enemies)
         {
             base.Initialize(enemies);
             
             InitMainCooldownTimer();
+            InitBulletCooldownTimer();
         }
 
         protected override void UpdateTargetEnemy()
@@ -33,23 +37,47 @@ namespace AFSInterview.Towers
         protected override void UpdateFireRate()
         {
             mainCooldownTimer.UpdateByTime(Time.deltaTime);
-            if (mainCooldownTimer.IsOver)
+            burstCooldownTimer.UpdateByTime(Time.deltaTime);
+
+            if (mainCooldownTimer.IsOver == false)
+                return;
+            
+            if (burstCooldownTimer.IsOver == false)
+                return;
+            
+            if (targetEnemy == null)
+                return;
+                    
+            SpawnAndShootBullet();
+            bulletsShotNumber++;
+                    
+            if (bulletsShotNumber >= bulletsPerBurst)
             {
-                if (targetEnemy == null)
-                    return;
-                
-                var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity)
-                    .GetComponent<Bullet>();
-                bullet.Initialize(targetEnemy.gameObject);
-                
+                bulletsShotNumber = 0;
                 mainCooldownTimer.ResetCooldown();
             }
+            else
+            {
+                burstCooldownTimer.ResetCooldown();
+            }
+        }
+
+        private void SpawnAndShootBullet()
+        {
+            var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity)
+                .GetComponent<Bullet>();
+            bullet.Initialize(targetEnemy.gameObject);
         }
 
         private void InitMainCooldownTimer()
         {
             mainCooldownTimer = new CooldownTimer(mainShootingCooldown, true);
             mainCooldownTimer.SetTimerAsActive(true);
+        }
+        private void InitBulletCooldownTimer()
+        {
+            burstCooldownTimer = new CooldownTimer(burstShootingCooldown, true);
+            burstCooldownTimer.SetTimerAsActive(true);
         }
     }
 }

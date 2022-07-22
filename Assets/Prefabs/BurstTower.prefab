@@ -224,3 +224,4 @@ MonoBehaviour:
   firingRange: 4
   mainShootingCooldown: 5
   burstShootingCooldown: 0.25
+  bulletsPerBurst: 3
