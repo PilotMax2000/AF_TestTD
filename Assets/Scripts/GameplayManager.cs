@@ -1,4 +1,6 @@
-﻿namespace AFSInterview
+﻿using AFSInterview.Towers;
+
+namespace AFSInterview
 {
     using System.Collections.Generic;
     using TMPro;

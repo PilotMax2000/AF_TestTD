@@ -1,8 +1,8 @@
-﻿namespace AFSInterview
-{
-    using System.Collections.Generic;
-    using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
+namespace AFSInterview.Towers
+{
     public class SimpleTower : MonoBehaviour
     {
         [SerializeField] private GameObject bulletPrefab;
