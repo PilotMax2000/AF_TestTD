@@ -37,7 +37,7 @@ namespace AFSInterview.Towers
                 {
                     var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity)
                         .GetComponent<Bullet>();
-                    bullet.Initialize(targetEnemy.gameObject);
+                    bullet.Initialize(targetEnemy);
                 }
 
                 fireTimer = firingRate;

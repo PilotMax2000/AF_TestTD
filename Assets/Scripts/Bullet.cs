@@ -1,4 +1,6 @@
-﻿namespace AFSInterview
+﻿using System;
+
+namespace AFSInterview
 {
     using UnityEngine;
 
@@ -6,11 +8,12 @@
     {
         [SerializeField] private float speed;
 
-        private GameObject targetObject;
+        private Enemy targetObject;
 
-        public void Initialize(GameObject target)
+        public void Initialize(Enemy target)
         {
             targetObject = target;
+            targetObject.OnEnemyDied += OnEnemyDied;
         }
 
         private void Update()
@@ -22,8 +25,17 @@
             if ((transform.position - targetObject.transform.position).magnitude <= 0.2f)
             {
                 Destroy(gameObject);
-                Destroy(targetObject);
+                Destroy(targetObject.gameObject);
             }
         }
+
+        private void OnDisable()
+        {
+            if(targetObject != null) 
+                targetObject.OnEnemyDied -= OnEnemyDied;
+        }
+
+        private void OnEnemyDied(Enemy obj) => 
+            Destroy(this.gameObject);
     }
 }
