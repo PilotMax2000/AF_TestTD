@@ -23,7 +23,6 @@ namespace AFSInterview
         [SerializeField] private GameObject scoreText;
         
         private List<Enemy> enemies;
-        //private float enemySpawnTimer;
         private int score;
         private CooldownTimer enemySpawnCooldownTimer;
 
@@ -38,26 +37,28 @@ namespace AFSInterview
         private void Update()
         {
             enemySpawnCooldownTimer.UpdateByTime(Time.deltaTime);
-            SpawnEnemyAferCooldown();
+            SpawnEnemyAfterCooldown();
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out var hit, LayerMask.GetMask("Ground")))
-                {
-                    var spawnPosition = hit.point;
-                    spawnPosition.y = towerPrefab.transform.position.y;
-
-                    SpawnTower(spawnPosition);
-                }
-            }
+            if (Input.GetMouseButtonDown(0)) 
+                SpawnTowerOnMousePosition();
 
             scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + score;
             enemiesCountText.GetComponent<TextMeshProUGUI>().text = "Enemies: " + enemies.Count;
         }
 
-        private void SpawnEnemyAferCooldown()
+        private void SpawnTowerOnMousePosition()
+        {
+            var ray = Helpers.Camera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out var hit, LayerMask.GetMask("Ground")) == false)
+                return;
+            var spawnPosition = hit.point;
+            spawnPosition.y = towerPrefab.transform.position.y;
+
+            SpawnTower(spawnPosition);
+        }
+
+        private void SpawnEnemyAfterCooldown()
         {
             if (enemySpawnCooldownTimer.IsOver == false) 
                 return;
