@@ -3,62 +3,45 @@ using UnityEngine;
 
 namespace AFSInterview.Towers
 {
-    public class SimpleTower : MonoBehaviour
+    public class SimpleTower : BaseTower
     {
-        [SerializeField] private GameObject bulletPrefab;
-        [SerializeField] private Transform bulletSpawnPoint;
+        [Header("Simple Tower Settings")]
         [SerializeField] private float firingRate;
-        [SerializeField] private float firingRange;
 
         private float fireTimer;
-        private Enemy targetEnemy;
 
-        private IReadOnlyList<Enemy> enemies;
-
-        public void Initialize(IReadOnlyList<Enemy> enemies)
+        public override void Initialize(IReadOnlyList<Enemy> enemies)
         {
-            this.enemies = enemies;
+            base.Initialize(enemies);
             fireTimer = firingRate;
         }
-
-        private void Update()
+        
+        protected override void UpdateTargetEnemy()
         {
-            targetEnemy = FindClosestEnemy();
-            if (targetEnemy != null)
-            {
-                var lookRotation = Quaternion.LookRotation(targetEnemy.transform.position - transform.position);
-                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, lookRotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-            }
+            base.UpdateTargetEnemy();
+            if (targetEnemy == null)
+                return;
+            
+            var lookRotation = Quaternion.LookRotation(targetEnemy.transform.position - transform.position);
+            var rotation = transform.rotation;
+            rotation = Quaternion.Euler(rotation.eulerAngles.x, lookRotation.eulerAngles.y, rotation.eulerAngles.z);
+            transform.rotation = rotation;
+        }
 
+        protected override void UpdateFireRate()
+        {
             fireTimer -= Time.deltaTime;
             if (fireTimer <= 0f)
             {
                 if (targetEnemy != null)
                 {
-                    var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity).GetComponent<Bullet>();
+                    var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity)
+                        .GetComponent<Bullet>();
                     bullet.Initialize(targetEnemy.gameObject);
                 }
 
                 fireTimer = firingRate;
             }
-        }
-
-        private Enemy FindClosestEnemy()
-        {
-            Enemy closestEnemy = null;
-            var closestDistance = float.MaxValue;
-
-            foreach (var enemy in enemies)
-            {
-                var distance = (enemy.transform.position - transform.position).magnitude;
-                if (distance <= firingRange && distance <= closestDistance)
-                {
-                    closestEnemy = enemy;
-                    closestDistance = distance;
-                }
-            }
-
-            return closestEnemy;
         }
     }
 }
