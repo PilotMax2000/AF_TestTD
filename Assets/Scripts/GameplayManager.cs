@@ -11,6 +11,7 @@ namespace AFSInterview
         [Header("Prefabs")] 
         [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private GameObject towerPrefab;
+        [SerializeField] private GameObject burstTowerPrefab;
 
         [Header("Settings")] 
         [SerializeField] private Vector2 boundsMin;

@@ -48,7 +48,6 @@ namespace AFSInterview.Towers
                     closestDistance = distance;
                 }
             }
-
             return closestEnemy;
         }
         
