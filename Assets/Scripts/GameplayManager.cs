@@ -97,10 +97,11 @@ namespace AFSInterview
         private void SpawnTower(Vector3 position)
         {
             var activeToggles = towerTypeToggleGroup.ActiveToggles();
-            if (!activeToggles.Any())
+            var enumerable = activeToggles.ToList();
+            if (!enumerable.Any())
                 return;
 
-            BaseTower tower = Instantiate(activeToggles.First() == burstTowerToggle 
+            BaseTower tower = Instantiate(enumerable.First() == burstTowerToggle 
                 ? burstTowerPrefab 
                 : towerPrefab, position, Quaternion.identity);
 
