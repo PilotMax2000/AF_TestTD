@@ -32,6 +32,8 @@ namespace AFSInterview
             
             enemySpawnCooldownTimer = new CooldownTimer(enemySpawnRate, true);
             enemySpawnCooldownTimer.SetTimerAsActive(true);
+            
+            UpdateUI();
         }
 
         private void Update()
@@ -41,8 +43,6 @@ namespace AFSInterview
 
             if (Input.GetMouseButtonDown(0)) 
                 SpawnTowerOnMousePosition();
-
-            UpdateUI();
         }
 
         private void UpdateUI()
@@ -80,12 +80,14 @@ namespace AFSInterview
             enemy.Initialize(boundsMin, boundsMax);
 
             enemies.Add(enemy);
+            UpdateUI();
         }
 
         private void Enemy_OnEnemyDied(Enemy enemy)
         {
             enemies.Remove(enemy);
             score++;
+            UpdateUI();
         }
 
         private void SpawnTower(Vector3 position)
