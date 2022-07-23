@@ -19,8 +19,8 @@ namespace AFSInterview
         [SerializeField] private float enemySpawnRate;
 
         [Header("UI")] 
-        [SerializeField] private GameObject enemiesCountText;
-        [SerializeField] private GameObject scoreText;
+        [SerializeField] private TextMeshProUGUI enemiesCountText;
+        [SerializeField] private TextMeshProUGUI scoreText;
         
         private List<Enemy> enemies;
         private int score;
@@ -42,8 +42,13 @@ namespace AFSInterview
             if (Input.GetMouseButtonDown(0)) 
                 SpawnTowerOnMousePosition();
 
-            scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + score;
-            enemiesCountText.GetComponent<TextMeshProUGUI>().text = "Enemies: " + enemies.Count;
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            scoreText.text = "Score: " + score;
+            enemiesCountText.text = "Enemies: " + enemies.Count;
         }
 
         private void SpawnTowerOnMousePosition()
