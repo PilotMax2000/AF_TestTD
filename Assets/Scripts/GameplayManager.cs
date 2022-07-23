@@ -57,13 +57,16 @@ namespace AFSInterview
 
         private void SpawnTowerOnMousePosition()
         {
+            if (Helpers.IsOverUI())
+                return;
+            
             var ray = Helpers.Camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out var hit, LayerMask.GetMask("Ground")) == false)
                 return;
             var spawnPosition = hit.point;
             spawnPosition.y = towerPrefab.transform.position.y;
-
+            
             SpawnTower(spawnPosition);
         }
 
