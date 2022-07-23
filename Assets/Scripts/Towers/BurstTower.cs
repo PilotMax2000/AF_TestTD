@@ -10,6 +10,7 @@ namespace AFSInterview.Towers
         [SerializeField] private float burstShootingCooldown;
         [SerializeField] private int bulletsPerBurst;
         [SerializeField] private int shootingMaxForce = 2000;
+        [SerializeField] private float aheadTimeBuffer = 0.3f;
 
         private CooldownTimer mainCooldownTimer;
         private CooldownTimer burstCooldownTimer;
@@ -67,9 +68,8 @@ namespace AFSInterview.Towers
         {
             var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
 
-            var enemyTargetCurrentPosition = targetEnemy.transform.position;
-            var enemyTargetPositionAfterTimeBuffer = enemyTargetCurrentPosition + targetEnemy.Direction * targetEnemy.Speed * 0.3f;
-            //var enemyTargetPosition = targetEnemy.transform.position;
+            var enemyTargetPositionAfterTimeBuffer = targetEnemy.transform.position + 
+                                                     targetEnemy.Direction * (targetEnemy.Speed * aheadTimeBuffer);
             float distanceToEnemy = Vector3.Distance(transform.position, enemyTargetPositionAfterTimeBuffer);
             float resForceDueToDistance = distanceToEnemy / firingRange * shootingMaxForce;
             Vector3 directionToEnemy = enemyTargetPositionAfterTimeBuffer - bullet.transform.position;
