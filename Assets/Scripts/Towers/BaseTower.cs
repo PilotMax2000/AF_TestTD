@@ -12,6 +12,7 @@ namespace AFSInterview.Towers
         [SerializeField] protected float firingRange;
 
         protected Enemy targetEnemy;
+        protected bool targetEnemyWasFound;
 
         private IReadOnlyList<Enemy> enemies;
 
@@ -29,8 +30,11 @@ namespace AFSInterview.Towers
             UpdateFireRate();
         }
 
-        protected virtual void UpdateTargetEnemy() => 
+        protected virtual void UpdateTargetEnemy()
+        {
             targetEnemy = FindClosestEnemy();
+            targetEnemyWasFound = targetEnemy != null;
+        }
 
         protected virtual void UpdateFireRate() { }
 

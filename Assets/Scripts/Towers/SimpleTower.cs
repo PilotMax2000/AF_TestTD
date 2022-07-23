@@ -20,7 +20,7 @@ namespace AFSInterview.Towers
         protected override void UpdateTargetEnemy()
         {
             base.UpdateTargetEnemy();
-            if (targetEnemy == null)
+            if (targetEnemyWasFound == false)
                 return;
             
             var lookRotation = Quaternion.LookRotation(targetEnemy.transform.position - transform.position);
@@ -34,7 +34,7 @@ namespace AFSInterview.Towers
             fireTimer -= Time.deltaTime;
             if (fireTimer <= 0f)
             {
-                if (targetEnemy != null)
+                if (targetEnemyWasFound)
                 {
                     var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity)
                         .GetComponent<Bullet>();

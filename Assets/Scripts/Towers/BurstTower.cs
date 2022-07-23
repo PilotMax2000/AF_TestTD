@@ -28,7 +28,7 @@ namespace AFSInterview.Towers
         protected override void UpdateTargetEnemy()
         {
             base.UpdateTargetEnemy();
-            if (targetEnemy == null)
+            if (targetEnemyWasFound == false)
                 return;
             
             var lookRotation = Quaternion.LookRotation(targetEnemy.transform.position - transform.position);
@@ -48,7 +48,7 @@ namespace AFSInterview.Towers
             if (burstCooldownTimer.IsOver == false)
                 return;
             
-            if (targetEnemy == null)
+            if (targetEnemyWasFound == false)
                 return;
                     
             SpawnAndShootBullet();
