@@ -65,8 +65,14 @@ namespace AFSInterview.Towers
         private void SpawnAndShootBullet()
         {
             var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity)
-                .GetComponent<Bullet>();
-            bullet.Initialize(targetEnemy);
+                .GetComponent<BulletBurst>();
+            float resForce = 0;
+
+            float dist = Vector3.Distance(transform.position, targetEnemy.transform.position);
+            resForce = dist / 4 * 2000;
+            
+            Vector3 direction = targetEnemy.transform.position - bullet.transform.position;
+            bullet.GetComponent<Rigidbody>().AddForce(direction.x * resForce, direction.y * resForce, direction.z * resForce);
         }
 
         private void InitMainCooldownTimer()
