@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace AFSInterview
+namespace AFSInterview.Bullets
 {
     public class BulletBurst : MonoBehaviour
     {

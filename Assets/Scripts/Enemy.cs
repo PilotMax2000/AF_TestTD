@@ -39,7 +39,7 @@
         {
             direction = (target - transform.position).normalized;
 
-            transform.position += direction * speed * Time.deltaTime;
+            transform.position += direction * (speed * Time.deltaTime);
             if ((transform.position - target).magnitude <= 0.1f)
                 SetTarget();
         }

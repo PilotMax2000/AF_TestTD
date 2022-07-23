@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace AFSInterview
+namespace AFSInterview.Extra
 {
     public static class Helpers
     {

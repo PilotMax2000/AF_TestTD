@@ -1,9 +1,7 @@
-﻿using System;
+﻿using UnityEngine;
 
-namespace AFSInterview
+namespace AFSInterview.Bullets
 {
-    using UnityEngine;
-
     public class Bullet : MonoBehaviour
     {
         [SerializeField] private float speed;

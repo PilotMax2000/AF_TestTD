@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AFSInterview.Extra;
 using AFSInterview.Towers;
 using UnityEngine.UI;
 
@@ -61,7 +62,6 @@ namespace AFSInterview
                 return;
             
             var ray = Helpers.Camera.ScreenPointToRay(Input.mousePosition);
-
             if (Physics.Raycast(ray, out var hit, LayerMask.GetMask("Ground")) == false)
                 return;
             var spawnPosition = hit.point;
@@ -74,6 +74,7 @@ namespace AFSInterview
         {
             if (enemySpawnCooldownTimer.IsOver == false) 
                 return;
+            
             SpawnEnemy();
             enemySpawnCooldownTimer.ResetCooldown();
         }
@@ -81,12 +82,11 @@ namespace AFSInterview
         private void SpawnEnemy()
         {
             var position = new Vector3(Random.Range(boundsMin.x, boundsMax.x), enemyPrefab.transform.position.y, Random.Range(boundsMin.y, boundsMax.y));
-            
             var enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
             enemy.OnEnemyDied += Enemy_OnEnemyDied;
             enemy.Initialize(boundsMin, boundsMax);
-
             enemies.Add(enemy);
+            
             UpdateUI();
         }
 

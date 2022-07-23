@@ -1,4 +1,4 @@
-namespace AFSInterview
+namespace AFSInterview.Extra
 {
     public class Constants
     {

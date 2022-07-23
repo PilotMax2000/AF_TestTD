@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace AFSInterview
+namespace AFSInterview.Extra
 {
     public class CooldownTimer
     {
