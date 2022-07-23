@@ -9,7 +9,7 @@ namespace AFSInterview
     public class GameplayManager : MonoBehaviour
     {
         [Header("Prefabs")] 
-        [SerializeField] private GameObject enemyPrefab;
+        [SerializeField] private Enemy enemyPrefab;
         [SerializeField] private GameObject towerPrefab;
         [SerializeField] private GameObject burstTowerPrefab;
 
@@ -75,7 +75,7 @@ namespace AFSInterview
         {
             var position = new Vector3(Random.Range(boundsMin.x, boundsMax.x), enemyPrefab.transform.position.y, Random.Range(boundsMin.y, boundsMax.y));
             
-            var enemy = Instantiate(enemyPrefab, position, Quaternion.identity).GetComponent<Enemy>();
+            var enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
             enemy.OnEnemyDied += Enemy_OnEnemyDied;
             enemy.Initialize(boundsMin, boundsMax);
 
