@@ -1,4 +1,6 @@
-﻿using AFSInterview.Towers;
+﻿using System.Linq;
+using AFSInterview.Towers;
+using UnityEngine.UI;
 
 namespace AFSInterview
 {
@@ -10,8 +12,8 @@ namespace AFSInterview
     {
         [Header("Prefabs")] 
         [SerializeField] private Enemy enemyPrefab;
-        [SerializeField] private GameObject towerPrefab;
-        [SerializeField] private GameObject burstTowerPrefab;
+        [SerializeField] private BaseTower towerPrefab;
+        [SerializeField] private BaseTower burstTowerPrefab;
 
         [Header("Settings")] 
         [SerializeField] private Vector2 boundsMin;
@@ -21,6 +23,8 @@ namespace AFSInterview
         [Header("UI")] 
         [SerializeField] private TextMeshProUGUI enemiesCountText;
         [SerializeField] private TextMeshProUGUI scoreText;
+        [SerializeField] private ToggleGroup towerTypeToggleGroup;
+        [SerializeField] private Toggle burstTowerToggle;
         
         private List<Enemy> enemies;
         private int score;
@@ -92,8 +96,14 @@ namespace AFSInterview
 
         private void SpawnTower(Vector3 position)
         {
-            //var tower = Instantiate(towerPrefab, position, Quaternion.identity).GetComponent<SimpleTower>();
-            var tower = Instantiate(burstTowerPrefab, position, Quaternion.identity).GetComponent<BurstTower>();
+            var activeToggles = towerTypeToggleGroup.ActiveToggles();
+            if (!activeToggles.Any())
+                return;
+
+            BaseTower tower = Instantiate(activeToggles.First() == burstTowerToggle 
+                ? burstTowerPrefab 
+                : towerPrefab, position, Quaternion.identity);
+
             tower.Initialize(enemies);
         }
     }
