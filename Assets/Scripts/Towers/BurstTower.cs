@@ -67,10 +67,12 @@ namespace AFSInterview.Towers
         {
             var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
 
-            var enemyTargetPosition = targetEnemy.transform.position;
-            float distanceToEnemy = Vector3.Distance(transform.position, enemyTargetPosition);
+            var enemyTargetCurrentPosition = targetEnemy.transform.position;
+            var enemyTargetPositionAfterTimeBuffer = enemyTargetCurrentPosition + targetEnemy.Direction * targetEnemy.Speed * 0.3f;
+            //var enemyTargetPosition = targetEnemy.transform.position;
+            float distanceToEnemy = Vector3.Distance(transform.position, enemyTargetPositionAfterTimeBuffer);
             float resForceDueToDistance = distanceToEnemy / firingRange * shootingMaxForce;
-            Vector3 directionToEnemy = enemyTargetPosition - bullet.transform.position;
+            Vector3 directionToEnemy = enemyTargetPositionAfterTimeBuffer - bullet.transform.position;
             bullet.GetComponent<Rigidbody>().AddForce(
                 directionToEnemy.x * resForceDueToDistance,
                 directionToEnemy.y * resForceDueToDistance,

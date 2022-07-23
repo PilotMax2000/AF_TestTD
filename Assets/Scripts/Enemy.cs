@@ -10,12 +10,15 @@
         [SerializeField] private float speedVariance;
 
         public event Action<Enemy> OnEnemyDied;
+        public Vector3 Direction => direction;
+        public float Speed => speed;
 
         private Vector2 boundsMin;
         private Vector2 boundsMax;
 
         private float speed;
         private Vector3 target;
+        private Vector3 direction;
 
         public void Initialize(Vector2 boundsMin, Vector2 boundsMax)
         {
@@ -34,7 +37,7 @@
 
         private void Update()
         {
-            var direction = (target - transform.position).normalized;
+            direction = (target - transform.position).normalized;
 
             transform.position += direction * speed * Time.deltaTime;
             if ((transform.position - target).magnitude <= 0.1f)
