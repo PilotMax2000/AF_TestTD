@@ -9,6 +9,7 @@ namespace AFSInterview.Towers
         [SerializeField] private float mainShootingCooldown;
         [SerializeField] private float burstShootingCooldown;
         [SerializeField] private int bulletsPerBurst;
+        [SerializeField] private int shootingMaxForce = 2000;
 
         private CooldownTimer mainCooldownTimer;
         private CooldownTimer burstCooldownTimer;
@@ -64,15 +65,16 @@ namespace AFSInterview.Towers
 
         private void SpawnAndShootBullet()
         {
-            var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity)
-                .GetComponent<BulletBurst>();
-            float resForce = 0;
+            var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
 
-            float dist = Vector3.Distance(transform.position, targetEnemy.transform.position);
-            resForce = dist / 4 * 2000;
-            
-            Vector3 direction = targetEnemy.transform.position - bullet.transform.position;
-            bullet.GetComponent<Rigidbody>().AddForce(direction.x * resForce, direction.y * resForce, direction.z * resForce);
+            var enemyTargetPosition = targetEnemy.transform.position;
+            float distanceToEnemy = Vector3.Distance(transform.position, enemyTargetPosition);
+            float resForceDueToDistance = distanceToEnemy / firingRange * shootingMaxForce;
+            Vector3 directionToEnemy = enemyTargetPosition - bullet.transform.position;
+            bullet.GetComponent<Rigidbody>().AddForce(
+                directionToEnemy.x * resForceDueToDistance,
+                directionToEnemy.y * resForceDueToDistance,
+                directionToEnemy.z * resForceDueToDistance);
         }
 
         private void InitMainCooldownTimer()
